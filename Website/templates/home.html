@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 align="center">GCS Group 14</h1>
+<h2 align="center">{{ username }}</h2>
+<h3 align="center">Room Booking</h3>
+
+{% if date_confirmed == False%}
+<form method="POST" style="width: 500px; margin: auto">
+    <div class="mb-3">
+        <label for="room_type">Room Type</label>
+        <select class="form-select" name="room_type" id="room_type">
+                <option selected>Select Room Type</option>
+            {% for row in rooms %}
+            <option value="{{row.room_type}}">{{row.room_type}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="date">Date</label>
+        <input
+            type="date"
+            class="form-control"
+            id="date"
+            name="date">
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-primary">Check Available Slots for Selected Date</button>
+    </div>
+</form>
+
+
+{% else %}
+<form method="POST" style="width: 500px; margin: auto">
+    <input type="hidden" id="submit" name="submit" value="book">
+    <div class="mb-3">
+        <label for="confirmed_room_type">Selected Room Type</label>
+        <input
+            type="text"
+            readonly
+            class="form-control"
+            id="confirmed_room_type"
+            name="confirmed_room_type"
+            value="{{confirmed_room_type}}">
+    </div>
+
+    <div class="mb-3">
+        <label for="confirmed_date">Selected Date</label>
+        <input
+            type="date"
+            readonly
+            class="form-control"
+            id="confirmed_date"
+            name="confirmed_date"
+            value={{confirmed_date}}>
+    </div>
+
+    <div class="mb-3">
+        <label for="time_slot">Available Time Slots</label>
+        <select class="form-select" name="time_slot" id="time_slot">
+            <option selected>Select Time Slot</option>
+            {% for n in time_slots %}
+                <option value='{{n}}:00 - {{n+1}}:00'>{{n}}:00 to {{n+1}}:00</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+{% endif %}
+
+{% endblock %}

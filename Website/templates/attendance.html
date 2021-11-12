@@ -1,0 +1,279 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="selector" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Attendance</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="signtype">How would you like to add the attendance?</label>
+                </div>
+                <div class="form-group">
+                    <button type="button" class="btn btn-success" data-toggle="modal" href="#easy">Attendance NOW</button>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#custom">Attendance CUSTOM</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="easy" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Easy Attendance</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="signtype">Enter the ID of employee to take attendance.</label>
+                </div>
+                <form action="{{ url_for('views.attendance') }}" class="form-inline" method="POST">
+                    <div class="form-group col-md-12">
+                        <label for="employee_id">ID: </label>
+                        <input type="hidden" class="form-control" id="add_or_check" name="add_or_check" value="check">
+                        <input type="text" class="form-control" id="employee_id" name="employee_id" placeholder="NRIC..">
+                        <button
+                                type="submit"
+                                name="submit"
+                                class="btn btn-dark"
+                                data-toggle="modal"
+                                data-target="#checkid"
+                        >Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="custom" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Custom Attendance</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="signtype">Enter the following details accordingly.</label>
+                </div>
+                <form action="{{ url_for('views.attendance') }}" method="POST">
+                    <div class="form-group">
+                        <label for="employee_id">Employee ID: </label>
+                        <input type="hidden" class="form-control" id="add_or_check" name="add_or_check" value="custom">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id="employee_id"
+                            name="employee_id"
+                            placeholder="Must be Exisiting Employee ID"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Custom Date: </label>
+                        <input
+                            type="date"
+                            class="form-control"
+                            name="date"
+                            required>
+                    </div>
+                    <div class="form-inline">
+                        <div class="form-group">
+                            <label for="hour">Custom Time: </label>
+                            <select
+                                class="form-control"
+                                name="minute"
+                                required>
+                                {% for i in range(0,24) %}
+                                    <option>{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                            <label> : </label>
+                        </div>
+                        <div class="form-group">
+                            <select
+                                class="form-control"
+                                name="hour"
+                                required>
+                                {% for i in range(0,60) %}
+                                    <option>{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label> : </label>
+                            <select
+                                class="form-control"
+                                name="second"
+                                required>
+                                {% for i in range(0,60) %}
+                                    <option>{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status: </label><div class="form-check form-check-inline">
+                            <input
+                                type="radio"
+                                class="form-check-input"
+                                name="status"
+                                id="status"
+                                value="IN"
+                                checked>
+                            <label class="form-check-label" for="status">IN</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input
+                                type="radio"
+                                class="form-check-input"
+                                name="status"
+                                id="status"
+                                value="OUT">
+                            <label class="form-check-label" for="status">OUT</label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button
+                                type="submit"
+                                name="submit"
+                                class="btn btn-dark"
+                        >Submit</button>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if employee_found %}
+{% endif %}
+
+<div id="filter" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="container">
+                        <div class="row">
+                            <label>Edit the filter to your own preferences.</label>
+                            <input
+                                type="hidden"
+                                name="add_or_check"
+                                value="search">
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2">ID: </label>
+                            <input
+                                type="text"
+                                class="col-sm-6"
+                                name="id">
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2">Name: </label>
+                            <input
+                                type="text"
+                                class="col-sm-6"
+                                name="name">
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2">Date: </label>
+                            <input
+                                class="col-sm-6"
+                                name="date"
+                                type="date">
+                            </input>
+                        </div>
+                        <label class="form-check form-check-inline">Precise: </label>
+                        <div class="form-check form-check-inline">
+                            <input
+                                type="radio"
+                                class="form-check-input"
+                                name="search_range"
+                                id="search_range"
+                                value="day"
+                                checked>
+                            <label class="form-check-label" for="search_range">Day</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input
+                                type="radio"
+                                class="form-check-input"
+                                name="search_range"
+                                id="search_range"
+                                value="month">
+                            <label class="form-check-label" for="search_range">Month</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input
+                                type="radio"
+                                class="form-check-input"
+                                name="search_range"
+                                id="search_range"
+                                value="year"
+                                value="year">
+                            <label class="form-check-label" for="search_range">Year</label>
+                        </div>
+                        <div class="row justify-content-md-center">
+                            <button type="submit" class="btn btn-dark col-md-2">Search</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-dark" id="back_to_attendance" href="/attendance">Clear Filters</a>
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="row">
+        <h2 class="col-md-6">Attendance Log</h2>
+            <div class="pull-right col-md-6">
+                <button style="float:right" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#filter">Edit Filters</button>
+                <button style="float:right" type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#selector">Add Attendance</button>
+            </div>
+    </div>
+  <table class="table table-stripped">
+    <thead class="thead-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Date (DD/MM/YY)</th>
+          <th>Time (hh:mm:ss)</th>
+          <th>RFID No.</th>
+          <th>ScannerID</th>
+        </tr>
+
+        {% for row in attendance %}
+        <tr>
+            <td>{{row.id}}</td>
+            <td>{{row.name}}</td>
+            <td>{{row.date}}</td>
+            <td>{{row.time}}</td>
+            <td>{{row.rfidno}}</td>
+            <td>{{row.scannerid}}</td>
+          {% endfor %}
+        </tr>
+    </thead>
+  </table>
+{% if no_results %}
+    <h3 align="center">No Results Found.</h3>
+{% endif %}
+{% endblock %}

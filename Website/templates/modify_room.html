@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h3 align="center">Modify Room - {{data.room_type}}</h3>
+
+<form method="POST" style="width: 500px; margin: auto">
+    <div class="form-group row">
+        <label for="room_type">Room Type</label>
+        <div class="mb-2 mr-sm-2">
+        <input
+            type="text"
+            class="form-control"
+            id="room_type"
+            name="room_type"
+            value="{{data.room_type}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="abbreviation" class="col-sm-2 col-form-label">Abbreviation</label>
+        <div class="mb-2 mr-sm-2">
+        <input
+            type="text"
+            class="form-control"
+            id="abbreviation"
+            name="abbreviation"
+            value="{{data.abbr}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label for="quantity" class="col-sm-2 col-form-label">Quantity</label>
+        <div class="mb-2 mr-sm-2">
+        <input
+            type="number"
+            class="form-control"
+            id="quantity"
+            name="quantity"
+            value="{{data.quantity}}">
+        </div>
+    </div>
+    <div class="form-group row">
+        <button type="submit" class="btn btn-info">Save Changes</button>
+    </div>
+    <br>
+    <div class="form-group row">
+        <a role="button" href="/delete_room/{{data.id}}" class="btn btn-danger">Delete Room</a>
+    </div>
+    <br>
+    <div class="form-group row" style="width: 300px; margin: auto">
+        <a role="button" href="/room_management" class="btn btn-warning">Back</a>
+    </div>
+
+    <br />
+
+</form>
+
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div id="filter" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edit Filter</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST">
+                    <div class="container">
+                        <div class="row">
+                            <label>Enter the following details appropriately.</label>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Room Name: </label>
+                            <input
+                                type="text"
+                                class="col-sm-6"
+                                name="room_name">
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Abbreviation: </label>
+                            <input
+                                type="text"
+                                class="col-sm-6"
+                                name="abbr">
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-4">Quantity: </label>
+                            <input
+                                class="col-sm-6"
+                                name="quantity"
+                                type="number">
+                        </div>
+                        <div class="row justify-content-md-center">
+                            <button type="submit" class="btn btn-dark col-md-2">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-dark" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    <div class="row">
+        <h2 class="col-md-6">Manage Appointments</h2>
+    </div>
+  <table class="table table-stripped">
+    <thead class="thead-dark">
+        <tr>
+          <th>Date</th>
+          <th>Time Slot</th>
+          <th>Approved Status</th>
+          <th>Booked by</th>
+          <th>Approve Declined by</th>
+          <th>Room Type</th>
+          <th>Actions</th>
+        </tr>
+
+        {% for row in appointments %}
+        <tr>
+            <td>{{row.date}}</td>
+            <td>{{row.time_slot}}</td>
+            {% if row.approve_status == "pending" %}
+                <td class="text-warning">{{row.approve_status}}</td>
+            {% elif row.approve_status == "declined" %}
+                <td class="text-danger">{{row.approve_status}}</td>
+            {% elif row.approve_status == "approved" %}
+                <td class="text-success">{{row.approve_status}}</td>
+            {% else %}
+                <td class="text-info">{{row.approve_status}}</td>
+            {% endif %}
+            <td>{{row.booked_by}}</td>
+            <td>{{row.approved_declined_by}}</td>
+            <td>{{row.room_type}}</td>
+            <td>
+                <div class="container">
+                    <div class="row">
+                        <div class="col">
+                            {% if row.approve_status == "pending" %}
+                            <a href="/cancel/{{row.num_log}}">
+                                <button type="submit" class="btn btn-warning">Cancel</button>
+                            </a>
+                            {% elif row.approve_status == "declined" %}
+                                <button disabled class="btn btn-danger">Declined</button>
+                            {% elif row.approve_status == "approved" %}
+                                <button disabled class="btn btn-success">Approved</button>
+                            {% else %}
+                                <button disabled class="btn btn-info">Canceled</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </td>
+          {% endfor %}
+        </tr>
+    </thead>
+  </table>
+{% if no_results %}
+    <h3 align="center">No Results Found.</h3>
+{% endif %}
+{% endblock %}

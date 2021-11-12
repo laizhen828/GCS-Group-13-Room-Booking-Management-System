@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form action="{{ url_for('views.attendance') }}" method="POST">
+    <h3 align="center">Add Attendance</h3>
+    <h4>Please confirm with the details below:</h4>
+    <div class="form-group">
+        <input type="hidden" class="form-control" id="add_or_check" name="add_or_check" value="add">
+    </div>
+    <div class="form-group">
+        <label for="employee_id">Employee ID: </label>
+        <input
+            type="text"
+            class="form-control"
+            id="employee_id"
+            name="employee_id"
+            value="{{ employee_id }}"
+            >
+    </div>
+    <div class="form-group">
+        <label for="name">Name: </label>
+        <input
+            type="text"
+            class="form-control"
+            id="employee_name"
+            name="employee_name"
+            value="{{ name }}"
+            >
+    </div>
+    <div class="form-group">
+        <label for="date">Current Date: </label>
+        <input
+            type="text"
+            class="form-control"
+            id="date"
+            name="date"
+            value="{{ date }}"
+            >
+    </div>
+    <div class="form-group">
+        <label for="time">Time: </label>
+        <input
+            type="text"
+            class="form-control"
+            id="time"
+            name="time"
+            value="{{ time }}"
+            >
+    </div>
+    <div class="form-group">
+        <label for="status">Status: </label>
+        <div class="form-check form-check-inline">
+            <input
+                type="radio"
+                class="form-check-input"
+                name="status"
+                id="status"
+                value="IN"
+                checked>
+            <label class="form-check-label" for="status">IN</label>
+        </div>
+        <div class="form-check form-check-inline">
+            <input
+                type="radio"
+                class="form-check-input"
+                name="status"
+                id="status"
+                value="OUT">
+            <label class="form-check-label" for="status">OUT</label>
+        </div>
+    </div>
+    <div class="form-group">
+    <br />
+    <button type="submit" class="btn btn-primary">Confirm</button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,10 @@
+[Configurations]
+host = 0.0.0.0
+port = 5000
+secret_key = gcsgroup14
+mysql_host = 192.168.0.104
+mysql_port = 3306
+mysql_user = dbadmin
+mysql_password = dbadmin123
+mysql_db_name = gcs_rbms
+
